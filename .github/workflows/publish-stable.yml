@@ -22,7 +22,7 @@ jobs:
           # Build everything
           cargo build --verbose
           # Pack files
-          find . -type f \( -name "tracking_chain.contract" -o -name "tracking_chain.json" -o -name "tracking_chain.wasm" \) | tar -czf "${release_name}.tar.gz" -T -
+          tar -czf "${release_name}.tar.gz" /home/runner/work/InkTrackingChain/InkTrackingChain/target/tracking_chain.wasm /home/runner/work/InkTrackingChain/InkTrackingChain/target/tracking_chain.json /home/runner/work/InkTrackingChain/InkTrackingChain/target/tracking_chain.contract
     - name: Publish
       uses: softprops/action-gh-release@v1
       with:
