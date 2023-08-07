@@ -4,41 +4,29 @@ on:
   push:
     tags:
       - 'v*.*.*'
+env:
+  CARGO_TERM_COLOR: always
 
 jobs:
-  release:
-    name: Release
+  build:
 
-    strategy:
-      matrix:
-        kind: ['linux']
-        include:
-          - kind: linux
-            os: ubuntu-latest
-            target: linux-x64
-
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          
-      - name: Build TrackingChain Ink
-        shell: bash
-        run: |
+    - uses: actions/checkout@v3
+    - name: Build
+      shell: bash
+      run: |
           tag=$(git describe --tags --abbrev=0)
-          release_name="tracking_chain-$tag-${{ matrix.kind }}"
+          release_name="aggregator-pool-worker-$tag"
           # Build everything
           cargo build --verbose
           # Pack files
           tar czvf "${release_name}.tar.gz" "$release_name"
-          
-      - name: Publish
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            tracking_chain-*
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Publish
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          tracking_chain*
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
