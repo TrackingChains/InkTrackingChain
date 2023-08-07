@@ -18,11 +18,11 @@ jobs:
       shell: bash
       run: |
           tag=$(git describe --tags --abbrev=0)
-          release_name="aggregator-pool-worker-$tag"
+          release_name="tracking_chain-$tag"
           # Build everything
           cargo build --verbose
           # Pack files
-          tar czvf "${release_name}.tar.gz" "$release_name"
+          find . -type f \( -name "tracking_chain.contract" -o -name "tracking_chain.json" -o -name "tracking_chain.wasm" \) | tar -czf "${release_name}.tar.gz" -T -
     - name: Publish
       uses: softprops/action-gh-release@v1
       with:
