@@ -15,6 +15,7 @@ ink_e2e = "4.2.0"
 
 [lib]
 path = "lib.rs"
+crate-type = ["cdylib"]
 
 [features]
 default = ["std"]
